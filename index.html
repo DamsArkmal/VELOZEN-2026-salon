@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VeloZen — Inscription Essais & Tombola 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+:root {
+  --green-deep:   #1a3a2a;
+  --green-mid:    #2d6a4f;
+  --green-sage:   #40916c;
+  --green-bright: #52b788;
+  --green-light:  #b7e4c7;
+  --green-pale:   #d8f3dc;
+  --cream:        #f8f4ed;
+  --cream-dark:   #ede8df;
+  --text:         #1a2c24;
+  --text-soft:    #4a6358;
+  --accent:       #e8a030;
+  --accent-light: #fde9b8;
+  --error:        #c0392b;
+  --white:        #ffffff;
+  --shadow:       0 4px 28px rgba(26,58,42,0.11);
+  --radius:       16px;
+  --radius-sm:    9px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--cream);
+  color: var(--text);
+  min-height: 100vh;
+  background-image:
+    radial-gradient(ellipse at 85% 0%, rgba(82,183,136,0.13) 0%, transparent 55%),
+    radial-gradient(ellipse at 5% 95%, rgba(29,106,79,0.09) 0%, transparent 50%);
+}
+
+/* HEADER */
+header {
+  background: var(--green-deep);
+  position: relative;
+  overflow: hidden;
+}
+header::before {
+  content:'';position:absolute;top:-60px;right:-60px;width:220px;height:220px;
+  background:radial-gradient(circle,rgba(82,183,136,0.18) 0%,transparent 70%);border-radius:50%;
+}
+.header-inner {
+  max-width:760px;margin:0 auto;padding:32px 28px 28px;
+  display:flex;align-items:center;gap:18px;position:relative;
+}
+.logo-mark {
+  width:56px;height:56px;
+  background:linear-gradient(135deg,var(--green-bright),var(--green-sage));
+  border-radius:14px;display:flex;align-items:center;justify-content:center;
+  font-size:28px;flex-shrink:0;box-shadow:0 4px 16px rgba(82,183,136,0.35);
+}
+.header-text h1 {
+  font-family:'DM Serif Display',serif;font-size:1.9rem;
+  color:var(--cream);letter-spacing:-0.02em;line-height:1.1;
+}
+.header-text h1 span{color:var(--green-bright);}
+.header-text p {
+  color:var(--green-light);font-size:0.82rem;margin-top:5px;
+  font-weight:300;letter-spacing:0.05em;text-transform:uppercase;
+}
+.header-stripe{height:4px;background:linear-gradient(90deg,var(--green-bright) 0%,var(--accent) 50%,var(--green-bright) 100%);}
+
+/* PROGRESS */
+.progress-wrap{background:var(--green-deep);padding:0 28px 18px;}
+.progress-labels{max-width:760px;margin:0 auto;display:flex;justify-content:space-between;margin-bottom:8px;}
+.step-pill{font-size:0.72rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--green-light);opacity:0.5;transition:opacity 0.3s;}
+.step-pill.active{opacity:1;color:var(--green-bright);}
+.step-pill.done{opacity:0.8;color:var(--green-light);}
+.progress-track{max-width:760px;margin:0 auto;background:rgba(255,255,255,0.1);border-radius:4px;height:5px;overflow:hidden;}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--green-bright),var(--accent));border-radius:4px;width:50%;transition:width 0.5s cubic-bezier(0.4,0,0.2,1);}
+
+/* MAIN */
+main{max-width:760px;margin:0 auto;padding:36px 24px 80px;}
+
+.intro-banner{
+  background:linear-gradient(135deg,var(--green-mid),var(--green-deep));
+  color:var(--cream);border-radius:var(--radius);padding:20px 24px;margin-bottom:32px;
+  display:flex;align-items:flex-start;gap:14px;box-shadow:var(--shadow);
+}
+.intro-banner .icon{font-size:1.6rem;flex-shrink:0;margin-top:1px;}
+.intro-banner p{font-size:0.92rem;line-height:1.6;}
+.intro-banner strong{color:var(--green-bright);}
+
+/* SECTIONS */
+.form-section{display:none;animation:fadeIn 0.35s ease;}
+.form-section.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+
+.form-card{background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:20px;}
+.card-header{background:var(--green-deep);color:var(--cream);padding:15px 26px;display:flex;align-items:center;gap:10px;}
+.card-header .badge{
+  width:26px;height:26px;background:var(--green-bright);border-radius:50%;
+  font-size:0.75rem;font-weight:700;color:var(--green-deep);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.card-header h2{font-family:'DM Serif Display',serif;font-size:1.1rem;font-weight:400;}
+.card-body{padding:26px 26px 28px;}
+
+/* FIELDS */
+.field-row{display:grid;gap:16px;margin-bottom:16px;}
+.col2{grid-template-columns:1fr 1fr;}
+.col1{grid-template-columns:1fr;}
+@media(max-width:560px){.col2{grid-template-columns:1fr;}}
+.field{display:flex;flex-direction:column;gap:5px;}
+label.field-label{font-size:0.79rem;font-weight:600;color:var(--text-soft);text-transform:uppercase;letter-spacing:0.05em;}
+label.field-label .req{color:var(--accent);margin-left:2px;}
+
+input[type="text"],input[type="email"],input[type="tel"]{
+  width:100%;padding:11px 14px;border:1.5px solid var(--cream-dark);border-radius:var(--radius-sm);
+  font-family:'DM Sans',sans-serif;font-size:0.95rem;color:var(--text);background:var(--cream);
+  transition:border-color 0.2s,box-shadow 0.2s,background 0.2s;outline:none;
+}
+input:focus{border-color:var(--green-bright);background:var(--white);box-shadow:0 0 0 3px rgba(82,183,136,0.16);}
+input.invalid{border-color:var(--error);box-shadow:0 0 0 3px rgba(192,57,43,0.10);}
+.err-msg{font-size:0.76rem;color:var(--error);display:none;margin-top:1px;}
+.err-msg.show{display:block;}
+
+/* CONSENT BLOCKS */
+.consent-block{border-radius:var(--radius-sm);padding:18px 20px;margin-bottom:14px;border:1.5px solid;}
+.consent-block.decharge{background:#fffbf0;border-color:var(--accent);}
+.consent-block.rgpd-partner{background:#f0f8f4;border-color:var(--green-light);}
+.consent-block.tombola{background:linear-gradient(135deg,#f0f8f4,#fffbf0);border-color:var(--green-sage);}
+.consent-block:last-child{margin-bottom:0;}
+.consent-title{font-size:0.82rem;font-weight:700;color:var(--text);margin-bottom:8px;display:flex;align-items:center;gap:6px;letter-spacing:0.02em;}
+.consent-block p{font-size:0.85rem;color:var(--text-soft);line-height:1.55;margin-bottom:12px;}
+.consent-block a{color:var(--green-sage);text-decoration:underline;}
+
+/* CUSTOM CHECKBOX */
+.check-row{display:flex;align-items:flex-start;gap:10px;cursor:pointer;}
+.custom-cb{
+  width:20px;height:20px;min-width:20px;
+  border:2px solid var(--green-sage);border-radius:5px;background:var(--white);
+  display:flex;align-items:center;justify-content:center;
+  transition:background 0.2s,border-color 0.2s;margin-top:1px;flex-shrink:0;
+}
+.custom-cb svg{opacity:0;transition:opacity 0.15s;}
+input[type="checkbox"]{position:absolute;opacity:0;width:0;height:0;}
+input[type="checkbox"]:checked + .custom-cb{background:var(--green-sage);border-color:var(--green-sage);}
+input[type="checkbox"]:checked + .custom-cb svg{opacity:1;}
+.check-row span{font-size:0.88rem;color:var(--text);line-height:1.5;}
+.req-star{color:var(--accent);}
+
+.rgpd-footer{
+  background:var(--cream);border:1px solid var(--cream-dark);border-radius:var(--radius-sm);
+  padding:16px 18px;font-size:0.78rem;color:var(--text-soft);line-height:1.6;
+}
+.rgpd-footer ul{list-style:none;padding-left:4px;margin-top:6px;}
+.rgpd-footer ul li{margin-bottom:4px;}
+.rgpd-footer ul li::before{content:'• ';color:var(--green-bright);}
+
+/* NAV BUTTONS */
+.nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:8px;gap:12px;}
+.nav-row.right{justify-content:flex-end;}
+.btn{
+  display:inline-flex;align-items:center;gap:8px;padding:13px 28px;border-radius:50px;
+  font-family:'DM Sans',sans-serif;font-size:0.93rem;font-weight:600;cursor:pointer;border:none;
+  transition:transform 0.15s,box-shadow 0.15s,opacity 0.15s,background 0.2s;
+}
+.btn-primary{background:linear-gradient(135deg,var(--green-sage),var(--green-deep));color:var(--white);box-shadow:0 6px 20px rgba(26,58,42,0.22);}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(26,58,42,0.28);}
+.btn-primary:disabled{opacity:0.55;cursor:not-allowed;transform:none;}
+.btn-ghost{background:transparent;color:var(--green-deep);border:2px solid var(--green-deep);}
+.btn-ghost:hover{background:var(--green-pale);}
+.submit-note{font-size:0.76rem;color:var(--text-soft);text-align:center;margin-top:10px;}
+.req-note{font-size:0.78rem;color:var(--text-soft);margin-bottom:20px;}
+.req-note span{color:var(--accent);}
+
+/* SPINNER */
+@keyframes spin{to{transform:rotate(360deg);}}
+.spinner{width:18px;height:18px;border:2px solid rgba(255,255,255,0.35);border-top-color:#fff;border-radius:50%;animation:spin 0.7s linear infinite;}
+
+/* SUCCESS */
+#success-screen{display:none;animation:fadeIn 0.4s ease;}
+#success-screen.show{display:block;}
+.success-hero{
+  background:linear-gradient(140deg,var(--green-deep) 0%,var(--green-mid) 100%);
+  border-radius:var(--radius);padding:44px 32px 36px;text-align:center;
+  color:var(--cream);box-shadow:var(--shadow);margin-bottom:24px;position:relative;overflow:hidden;
+}
+.success-hero::before{
+  content:'';position:absolute;top:-40px;right:-40px;width:180px;height:180px;
+  background:radial-gradient(circle,rgba(82,183,136,0.22) 0%,transparent 70%);border-radius:50%;
+}
+.checkmark-circle{
+  width:70px;height:70px;background:var(--green-bright);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;margin:0 auto 22px;font-size:30px;
+  animation:pop 0.45s cubic-bezier(0.34,1.56,0.64,1);box-shadow:0 0 0 12px rgba(82,183,136,0.2);
+}
+@keyframes pop{from{transform:scale(0);opacity:0;}to{transform:scale(1);opacity:1;}}
+.success-hero h2{font-family:'DM Serif Display',serif;font-size:2rem;margin-bottom:10px;}
+.success-hero .visitor-name{color:var(--green-bright);}
+.success-hero p{color:var(--green-light);font-size:0.92rem;line-height:1.6;max-width:420px;margin:0 auto;}
+
+.qr-card{
+  background:var(--white);border-radius:var(--radius);box-shadow:var(--shadow);
+  padding:32px 28px 28px;text-align:center;max-width:380px;margin:0 auto 20px;
+}
+.qr-label{font-size:0.72rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-soft);font-weight:600;margin-bottom:4px;}
+.qr-id{font-family:'DM Serif Display',serif;font-size:2.4rem;color:var(--green-deep);letter-spacing:0.05em;margin-bottom:20px;line-height:1;}
+#qrcode{display:flex;justify-content:center;margin-bottom:16px;}
+#qrcode canvas{border-radius:8px;box-shadow:0 2px 14px rgba(26,58,42,0.13);}
+.qr-hint{font-size:0.8rem;color:var(--text-soft);line-height:1.45;}
+.tombola-badge{
+  display:inline-block;background:var(--accent-light);border:1px solid var(--accent);
+  color:var(--text);border-radius:20px;padding:4px 14px;font-size:0.78rem;font-weight:600;margin-top:12px;
+}
+
+.action-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:20px;}
+.btn-print{background:var(--green-deep);color:var(--white);box-shadow:0 4px 14px rgba(26,58,42,0.2);}
+.btn-print:hover{background:var(--green-mid);}
+
+.email-notice{
+  background:var(--cream);border:1.5px solid var(--green-light);border-radius:var(--radius-sm);
+  padding:14px 18px;display:flex;align-items:flex-start;gap:10px;
+  max-width:500px;margin:0 auto;font-size:0.83rem;color:var(--text-soft);line-height:1.5;
+}
+.email-notice .icon{font-size:1.1rem;flex-shrink:0;margin-top:1px;}
+
+/* PRINT */
+@media print {
+  body{background:white;}
+  header,.intro-banner,#form-container,.action-row,.email-notice,.progress-wrap{display:none!important;}
+  #success-screen{display:block!important;}
+  .success-hero{background:white!important;color:black!important;border:2px solid #1a3a2a;-webkit-print-color-adjust:exact;}
+  .success-hero p,.success-hero h2{color:black!important;}
+  .success-hero .visitor-name{color:#2d6a4f!important;}
+  .checkmark-circle{background:#2d6a4f!important;color:white!important;}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <img src="https://www.velozen.com/img/cms/logo-velozen/logo-bicouleur-blanc.png"
+         alt="VeloZen"
+         style="height:54px;width:auto;flex-shrink:0;">
+    <div class="header-text">
+      <p>Salon 2026 — Essais vélos électriques &amp; Tombola</p>
+    </div>
+  </div>
+  <div class="header-stripe"></div>
+</header>
+
+<!-- PROGRESS BAR -->
+<div class="progress-wrap" id="progress-wrap">
+  <div class="progress-labels">
+    <span class="step-pill active" id="pill-1">① Vos coordonnées</span>
+    <span class="step-pill" id="pill-2">② Consentements &amp; décharge</span>
+  </div>
+  <div class="progress-track">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<main>
+
+  <div class="intro-banner" id="intro-banner">
+    <div class="icon">🎯</div>
+    <p>Bienvenue ! Pour <strong>essayer nos vélos électriques</strong> et <strong>participer à la grande tombola</strong>, remplissez ce court formulaire.<br>
+    </p>
+  </div>
+
+  <div id="form-container">
+    <p class="req-note">Les champs marqués d'un <span>*</span> sont obligatoires.</p>
+
+    <!-- ═══ SECTION 1 : Coordonnées ═══ -->
+    <div class="form-section active" id="section-1">
+
+      <div class="form-card">
+        <div class="card-header">
+          <div class="badge">1</div>
+          <h2>Vos coordonnées</h2>
+        </div>
+        <div class="card-body">
+
+          <div class="field-row col2">
+            <div class="field">
+              <label class="field-label" for="prenom">Prénom <span class="req">*</span></label>
+              <input type="text" id="prenom" placeholder="Votre prénom" autocomplete="given-name">
+              <span class="err-msg" id="err-prenom">Ce champ est requis.</span>
+            </div>
+            <div class="field">
+              <label class="field-label" for="nom">Nom <span class="req">*</span></label>
+              <input type="text" id="nom" placeholder="Votre nom de famille" autocomplete="family-name">
+              <span class="err-msg" id="err-nom">Ce champ est requis.</span>
+            </div>
+          </div>
+
+          <div class="field-row col2">
+            <div class="field">
+              <label class="field-label" for="email">Email <span class="req">*</span></label>
+              <input type="email" id="email" placeholder="nom@exemple.fr" autocomplete="email">
+              <span class="err-msg" id="err-email">Adresse email invalide.</span>
+            </div>
+            <div class="field">
+              <label class="field-label" for="telephone">Téléphone <span class="req">*</span></label>
+              <input type="tel" id="telephone" placeholder="06 12 34 56 78" autocomplete="tel">
+              <span class="err-msg" id="err-telephone">Ce champ est requis.</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="nav-row right">
+        <button class="btn btn-primary" onclick="goToSection2()">
+          Continuer <span>→</span>
+        </button>
+      </div>
+
+    </div><!-- /section-1 -->
+
+    <!-- ═══ SECTION 2 : Consentements ═══ -->
+    <div class="form-section" id="section-2">
+
+      <div class="form-card">
+        <div class="card-header">
+          <div class="badge">2</div>
+          <h2>Décharge &amp; Consentements</h2>
+        </div>
+        <div class="card-body">
+
+          <!-- Décharge -->
+          <div class="consent-block decharge">
+            <div class="consent-title">⚠️ Décharge de responsabilité <span class="req-star">*</span></div>
+            <p>En cochant cette case, vous certifiez être en bonne condition physique et apte à la pratique du vélo. Vous acceptez les termes de la décharge (consultable sur le stand).</p>
+            <label class="check-row" for="cb-decharge">
+              <input type="checkbox" id="cb-decharge">
+              <span class="custom-cb">
+                <svg width="11" height="8" viewBox="0 0 11 8" fill="none"><path d="M1 4l3 3 6-6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <span>«&nbsp;Je certifie être apte à la pratique du vélo et j'accepte les termes de la <a href="#" onclick="return false;">décharge de responsabilité</a>.&nbsp;»</span>
+            </label>
+            <span class="err-msg" id="err-decharge" style="margin-top:8px">Cette acceptation est obligatoire pour participer aux essais.</span>
+          </div>
+
+          <!-- RGPD Partenaires -->
+          <div class="consent-block rgpd-partner">
+            <div class="consent-title">🤝 Accord RGPD Partenaires &nbsp;<em style="font-weight:400;font-size:0.78rem;color:var(--text-soft)">(facultatif)</em></div>
+            <label class="check-row" for="cb-rgpd-partner">
+              <input type="checkbox" id="cb-rgpd-partner">
+              <span class="custom-cb">
+                <svg width="11" height="8" viewBox="0 0 11 8" fill="none"><path d="M1 4l3 3 6-6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <span>«&nbsp;J'accepte que mes coordonnées soient transmises à la boutique VELOZEN pour recevoir une offre personnalisée.&nbsp;»</span>
+            </label>
+          </div>
+
+          <!-- Tombola -->
+          <div class="consent-block tombola">
+            <div class="consent-title">🎰 Participation à la Tombola <span class="req-star">*</span></div>
+            <p>Participez au tirage au sort VeloZen ! La participation est conditionnée à la réalisation effective d'un test de vélo au cours du salon.</p>
+            <label class="check-row" for="cb-tombola">
+              <input type="checkbox" id="cb-tombola">
+              <span class="custom-cb">
+                <svg width="11" height="8" viewBox="0 0 11 8" fill="none"><path d="M1 4l3 3 6-6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <span>«&nbsp;Je souhaite participer au tirage au sort organisé par VeloZen et je déclare avoir pris connaissance du règlement disponible sur le stand. Ma participation est conditionnée à la réalisation d'un test de vélo.&nbsp;»</span>
+            </label>
+            <span class="err-msg" id="err-tombola" style="margin-top:8px">Merci de cocher cette case pour valider votre inscription.</span>
+          </div>
+
+          <!-- Newsletter -->
+          <div class="consent-block rgpd-partner" style="margin-bottom:0">
+            <div class="consent-title">📩 Lettre d'informations VeloZen &nbsp;<em style="font-weight:400;font-size:0.78rem;color:var(--text-soft)">(facultatif)</em></div>
+            <label class="check-row" for="cb-newsletter">
+              <input type="checkbox" id="cb-newsletter">
+              <span class="custom-cb">
+                <svg width="11" height="8" viewBox="0 0 11 8" fill="none"><path d="M1 4l3 3 6-6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+              <span>J'accepte de recevoir la lettre d'informations VeloZen (nouveautés, promotions, événements).</span>
+            </label>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- RGPD footer -->
+      <div class="form-card">
+        <div class="card-body" style="padding:22px 26px">
+          <div class="rgpd-footer">
+            <strong style="display:block;margin-bottom:6px;font-size:0.82rem;color:var(--text)">🔒 Protection de vos données (RGPD)</strong>
+            Les informations recueillies sont traitées par Velozen pour gérer votre participation aux essais et, si coché, au tirage au sort des gagnants.
+            <ul>
+              <li><strong>Conservation :</strong> uniquement pour la durée nécessaire au tirage au sort et au traitement des éventuels litiges.</li>
+              <li><strong>Vos droits :</strong> accès, rectification, effacement — <a href="/cdn-cgi/l/email-protection#f485819d99849186b48291989b8e919ada979b99" style="color:var(--green-sage)"><span class="__cf_email__" data-cfemail="2455514d49544156645241484b5e414a0a474b49">[email&#160;protected]</span></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="nav-row">
+        <button class="btn btn-ghost" onclick="goToSection1()">← Retour</button>
+        <button class="btn btn-primary" id="btn-submit" onclick="submitForm()">
+          <span id="btn-label">Valider &amp; obtenir mon QR code</span>
+          <span id="btn-spinner" style="display:none"><span class="spinner"></span></span>
+        </button>
+      </div>
+      <p class="submit-note">Votre QR code personnel sera généré immédiatement et envoyé par email.</p>
+
+    </div><!-- /section-2 -->
+
+  </div><!-- /form-container -->
+
+  <!-- ═══ SUCCESS ═══ -->
+  <div id="success-screen">
+
+    <div class="success-hero">
+      <div class="checkmark-circle">✓</div>
+      <h2>Bienvenue, <span class="visitor-name" id="visitor-name-display"></span>&nbsp;!</h2>
+      <p>Votre inscription est confirmée. Présentez ce QR code à l'entrée de la zone essais.<br>
+      Un email de confirmation a été envoyé à <strong id="visitor-email-display" style="color:var(--white)"></strong></p>
+    </div>
+
+    <div class="qr-card">
+      <div class="qr-label">Votre identifiant visiteur</div>
+      <div class="qr-id" id="visitor-id-display"></div>
+      <div id="qrcode"></div>
+      <p class="qr-hint">Montrez ce QR code à l'entrée depuis votre téléphone ou imprimez-le.</p>
+      <div class="tombola-badge" id="tombola-badge" style="display:none">🎰 Inscrit à la tombola</div>
+    </div>
+
+    <div class="action-row">
+      <button class="btn btn-print" onclick="window.print()">🖨️ Imprimer</button>
+      <button class="btn btn-ghost" onclick="resetForm()">← Nouvel inscrit</button>
+    </div>
+
+    <div class="email-notice">
+      <span class="icon">📧</span>
+      <div>Un email de confirmation a été envoyé à <strong id="email-confirm-display"></strong>.<br>
+      <span style="font-size:0.78rem;color:var(--text-soft)">Vérifiez vos spams si vous ne le recevez pas dans quelques minutes.</span></div>
+    </div>
+
+  </div>
+
+</main>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// ── navigation ──────────────────────────────────
+function goToSection2() {
+  if (!validateSection1()) return;
+  document.getElementById('section-1').classList.remove('active');
+  document.getElementById('section-2').classList.add('active');
+  document.getElementById('progressFill').style.width = '100%';
+  document.getElementById('pill-1').classList.replace('active','done');
+  document.getElementById('pill-2').classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function goToSection1() {
+  document.getElementById('section-2').classList.remove('active');
+  document.getElementById('section-1').classList.add('active');
+  document.getElementById('progressFill').style.width = '50%';
+  document.getElementById('pill-2').classList.remove('active');
+  document.getElementById('pill-1').classList.remove('done');
+  document.getElementById('pill-1').classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ── validation ──────────────────────────────────
+function setErr(inputId, errId, show) {
+  document.getElementById(inputId).classList.toggle('invalid', show);
+  document.getElementById(errId).classList.toggle('show', show);
+}
+function setConsentErr(errId, show) {
+  document.getElementById(errId).classList.toggle('show', show);
+}
+
+function validateSection1() {
+  const prenom = document.getElementById('prenom').value.trim();
+  const nom    = document.getElementById('nom').value.trim();
+  const email  = document.getElementById('email').value.trim();
+  const tel    = document.getElementById('telephone').value.trim();
+  const emailRx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  let ok = true;
+  setErr('prenom','err-prenom', !prenom);         if (!prenom) ok=false;
+  setErr('nom','err-nom', !nom);                  if (!nom) ok=false;
+  setErr('email','err-email', !emailRx.test(email)); if (!emailRx.test(email)) ok=false;
+  setErr('telephone','err-telephone', !tel);      if (!tel) ok=false;
+  return ok;
+}
+function validateSection2() {
+  const d = document.getElementById('cb-decharge').checked;
+  const t = document.getElementById('cb-tombola').checked;
+  setConsentErr('err-decharge', !d);
+  setConsentErr('err-tombola', !t);
+  return d && t;
+}
+
+// ── QR generation ───────────────────────────────
+function generateId() {
+  return 'VZV-' + Math.floor(1000 + Math.random() * 9000);
+}
+
+// ── submit ──────────────────────────────────────
+function submitForm() {
+  if (!validateSection2()) return;
+  const btn = document.getElementById('btn-submit');
+  btn.disabled = true;
+  document.getElementById('btn-label').style.display = 'none';
+  document.getElementById('btn-spinner').style.display = 'flex';
+
+  setTimeout(() => {
+    const prenom  = document.getElementById('prenom').value.trim();
+    const nom     = document.getElementById('nom').value.trim();
+    const email   = document.getElementById('email').value.trim();
+    const tombola = document.getElementById('cb-tombola').checked;
+    const id      = generateId();
+
+    document.getElementById('visitor-name-display').textContent  = prenom + ' ' + nom;
+    document.getElementById('visitor-email-display').textContent = email;
+    document.getElementById('email-confirm-display').textContent = email;
+    document.getElementById('visitor-id-display').textContent    = id;
+    if (tombola) document.getElementById('tombola-badge').style.display = 'inline-block';
+
+    document.getElementById('qrcode').innerHTML = '';
+    new QRCode(document.getElementById('qrcode'), {
+      text: 'VELOZEN:' + id + ':' + prenom + ' ' + nom + ':' + email,
+      width: 200, height: 200,
+      colorDark: '#1a3a2a', colorLight: '#ffffff',
+      correctLevel: QRCode.CorrectLevel.H
+    });
+
+    document.getElementById('form-container').style.display  = 'none';
+    document.getElementById('intro-banner').style.display    = 'none';
+    document.getElementById('progress-wrap').style.display   = 'none';
+    document.getElementById('success-screen').classList.add('show');
+    window.scrollTo({top:0,behavior:'smooth'});
+  }, 900);
+}
+
+// ── reset ────────────────────────────────────────
+function resetForm() {
+  ['prenom','nom','email','telephone'].forEach(id => {
+    document.getElementById(id).value = '';
+    document.getElementById(id).classList.remove('invalid');
+  });
+  ['cb-decharge','cb-rgpd-partner','cb-tombola','cb-newsletter'].forEach(id => {
+    document.getElementById(id).checked = false;
+  });
+  ['err-prenom','err-nom','err-email','err-telephone','err-decharge','err-tombola'].forEach(id => {
+    document.getElementById(id).classList.remove('show');
+  });
+  document.getElementById('tombola-badge').style.display = 'none';
+  document.getElementById('qrcode').innerHTML = '';
+  document.getElementById('success-screen').classList.remove('show');
+  document.getElementById('form-container').style.display = 'block';
+  document.getElementById('intro-banner').style.display   = 'flex';
+  document.getElementById('progress-wrap').style.display  = 'block';
+  document.getElementById('btn-submit').disabled = false;
+  document.getElementById('btn-label').style.display = 'inline';
+  document.getElementById('btn-spinner').style.display = 'none';
+  goToSection1();
+}
+
+// ── live clear errors ────────────────────────────
+['prenom','nom','email','telephone'].forEach(id => {
+  document.getElementById(id).addEventListener('input', () => {
+    document.getElementById(id).classList.remove('invalid');
+    document.getElementById('err-' + id).classList.remove('show');
+  });
+});
+['cb-decharge','cb-tombola'].forEach(
