@@ -454,7 +454,9 @@ function goToSection2() {
   document.getElementById('section-1').classList.remove('active');
   document.getElementById('section-2').classList.add('active');
   document.getElementById('progressFill').style.width = '100%';
-  document.getElementById('pill-1').classList.replace('active','done');
+  var p1 = document.getElementById('pill-1');
+  p1.classList.remove('active');
+  p1.classList.add('done');
   document.getElementById('pill-2').classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
 }
@@ -463,8 +465,9 @@ function goToSection1() {
   document.getElementById('section-1').classList.add('active');
   document.getElementById('progressFill').style.width = '50%';
   document.getElementById('pill-2').classList.remove('active');
-  document.getElementById('pill-1').classList.remove('done');
-  document.getElementById('pill-1').classList.add('active');
+  var p1 = document.getElementById('pill-1');
+  p1.classList.remove('done');
+  p1.classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
 }
 
